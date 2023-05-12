@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title%} Lista de tarefas {% endblock %}
+
+{% block content %}
+
+<div class=" offset-1 col-10 list-div">
+    <h3> Lista de tarefas
+    </h3>
+    <a class="btn btn-outline-primary" href="adicionarTarefa/" role="button">Adicionar tarefa</a>
+    <button class="btn btn-outline-primary" onclick="criarBorda()" id="borda"> Criar borda </button>
+   <div>
+       <p></p>
+   </div>
+    <table class="table table-hover" style="width:100%" id="tabela" >
+        <thead>
+            <tr>
+                <th> <span> Nome da tarefa </span></th>
+                <th> <span> Editar </span></th>
+                <th> <span> Excluir </span></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for Tarefa in Tarefas %}
+            <tr class="task-item">
+                <td><span > <a href="/tarefas/{{Tarefa.id}}"> {{Tarefa.title}}</a></span></td>
+                <td><a href="editar/{{Tarefa.id}}"><span> <i class="fas fa-edit"></i></span></a></td>
+                <td><a href="deletar/{{Tarefa.id}}"><span> <i class="fas fa-trash"></i></span></a></td>
+                
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <th> <span> Nome da tarefa </span></th>
+                <th> <span> Editar </span></th>
+                <th> <span> Excluir </span></th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+{% endblock %}
