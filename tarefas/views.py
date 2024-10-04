@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from .forms import tarefaForm
 from .models import tarefa
+from tarefas.tasks import add
 
 # Create your views here.
 
@@ -24,6 +25,8 @@ def adicionarTarefa(request):
             return redirect('/')
 
     else:
+        resultado = add.delay(10,20)
+        print("Resultado:", resultado)
         form = tarefaForm()
         return render(request, 'tarefas/adicionarTarefa.html', {'form':form})
 def editarTarefa(request, id):

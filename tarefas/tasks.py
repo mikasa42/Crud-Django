@@ -1,8 +1,9 @@
-from celery import Celery
+import os
+from celery import shared_task
+from time import sleep
 
-#app = Celery('tasks', broker='redis://172.19.0.2:6379/0')
-app = Celery('hello', broker='redis://localhost:6379/0')
 
-@app.task
+@shared_task
 def add(x, y):
+    sleep(2)
     return x + y
