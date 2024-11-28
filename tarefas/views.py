@@ -3,7 +3,9 @@ from django.http import HttpResponse
 from .forms import tarefaForm
 from .models import tarefa
 from tarefas.tasks import add
-
+import json
+import os
+from django.conf import settings
 # Create your views here.
 
 def tarefas(request):
@@ -36,6 +38,20 @@ def editarTarefa(request, id):
     if(request.method == 'POST'):
         form = tarefaForm(request.POST, instance=Tarefa)
         if(form.is_valid()):
+            if 'teste.json' in request.FILES:
+                file =request.FILES['teste.json']
+                print(file)
+                file_data = file.read().decode('utf-8')  # Decodifica em UTF-8
+                # Transformar o conteúdo em um objeto Python
+                json_data = json.loads(file_data)
+                save_path = os.path.join(settings.MEDIA_ROOT, 'teste.json')  # salva o arquivo no deritório media
+                with open(save_path, 'w', encoding='utf-8') as f:
+                    json.dump(json_data, f, indent=4, ensure_ascii=False)  # Salvar em formato JSON
+            
+                # atualizando os campos do formulario  
+                Tarefa.title = json_data.get('title', Tarefa.title)
+                Tarefa.description = json_data.get('description', Tarefa.description)
+            
             Tarefa.save()
             return redirect('/')
         else:

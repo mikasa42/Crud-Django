@@ -4,10 +4,14 @@
 
 {% block content %}
 <div class=" offset-1 col-10 list-div">
-    <h1> Editando '{{Tarefa.title}}' </h1>
-    <form method="POST">
+    <h3> Edite sua tarefa: '{{Tarefa.title}}' </h3>
+    <form method="POST" action="{% url 'editar-tarefa' id=Tarefa.id %}" enctype="multipart/form-data">{% csrf_token %}
         {% csrf_token %}
-        {{form.as_p}}<!-- Mostra todos os campos criados no arquivo forms.py-->
-        <input type="submit" class="btn btn-sucess" value="Editar Tarefa">
+        {{form.as_p}} <!-- Mostra todos os campos criados no arquivo forms.py-->
+        <P>Esta com preguiça de escrever? suba um arquivo Json.</P>
+        <input type="file" name="teste.json">
+        <p></p>
+        <input type="submit" class="btn btn-success" value="Editar Tarefa">
     </form>
+</div>
 {% endblock %}
